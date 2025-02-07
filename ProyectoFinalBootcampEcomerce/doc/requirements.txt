@@ -1,0 +1,9 @@
+pandas 
+numpy
+sqlalchemy
+streamlit
+matplotlib
+selenium
+beautifulsoup4
+requests
+
