@@ -1,0 +1,13 @@
+pandas
+numpy
+sqlalchemy
+streamlit
+matplotlib
+selenium
+beautifulsoup4
+requests
+Scrapy
+prettify
+webdriver_manager
+mysql-connector-python
+streamlit
