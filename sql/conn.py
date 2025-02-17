@@ -7,7 +7,7 @@ def conectar():
             host ="localhost",
             user= "root",
             password = "",
-            database = "Ecommerce"
+            
         )
 
         if conexion.is_connected():
