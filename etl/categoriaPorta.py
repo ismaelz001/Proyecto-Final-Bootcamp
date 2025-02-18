@@ -75,8 +75,8 @@ def extraer_categorias_primer_nivel(url):
 categorias = extraer_categorias_primer_nivel(url)
 
     # Limitar a un máximo de 10 categorías seleccionadas aleatoriamente
-if len(categorias) > 10:
-    categorias = random.sample(categorias, 10)
+if len(categorias) > 5:
+    categorias = random.sample(categorias, 5)
     
 
 

@@ -60,7 +60,7 @@ def extraer_producto(url):
         lis = ul.find_all("li")
         for li in lis:
             productos.append(li.text.strip())
-            if len(productos) >= 10:  # Limitar a 10 productos
+            if len(productos) >= 16:  
                 return productos
     return productos
 
