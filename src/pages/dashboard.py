@@ -6,7 +6,7 @@ import seaborn as sns
 # Cargar datos (esto luego se cambiará a la base de datos)
 @st.cache_data
 def load_data():
-    return pd.read_csv("Proyecto-Final-Bootcamp/data/productos_componentes_pc.csv")
+    return pd.read_csv("../data/productos_componentes_pc.csv")
 
 df = load_data()
 
