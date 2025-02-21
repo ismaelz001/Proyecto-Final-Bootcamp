@@ -120,8 +120,8 @@ def extraer_productos_para_categorias(archivo_categoria, archivo_productos):
     print(f"Extracción completada y guardada en {archivo_productos}")
 
 # Archivos CSV de categorías y productos
-archivo_categoria = "../data/categoriasPortatiles.csv"
-archivo_productos = "../data/productosPortatil.csv"
+archivo_categoria = "../../data/categoriasPortatiles.csv"
+archivo_productos = "../../data/productosPortatil.csv"
 
 # Extraer productos para categorías
 extraer_productos_para_categorias(archivo_categoria, archivo_productos)

@@ -114,10 +114,10 @@ def extraer_productos_para_categorias(archivo_categoria, archivo_productos):
     print(f"Extracción completada y guardada en {archivo_productos}")
 
 # Archivos CSV de categorías
-archivo_categoria_componentes_pc = "../data/categoriasPC.csv"
+archivo_categoria_componentes_pc = "../../data/categoriasPC.csv"
 
 # Archivos CSV para almacenar los productos
-archivo_productos_componentes_pc = "../data/productos_componentes_pc.csv"
+archivo_productos_componentes_pc = "../../data/productos_componentes_pc.csv"
 
 # Extraer productos para categorías de Componentes de PC
 extraer_productos_para_categorias(archivo_categoria_componentes_pc, archivo_productos_componentes_pc)

@@ -7,7 +7,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
-import re
 import random
 
 # URL de PCComponentes
@@ -34,7 +33,7 @@ def extraer_categorias_primer_nivel(url):
             EC.presence_of_element_located((By.CSS_SELECTOR, "aside nav ul li"))
         )
     except Exception as e:
-        print("Error: No se pudo cargar el menú de categorías.")
+        print("❌ Error: No se pudo cargar el menú de categorías.")
         driver.quit()
         return []
 
@@ -44,52 +43,42 @@ def extraer_categorias_primer_nivel(url):
 
     categorias = []
 
-    nav= soup.find("nav",id="menu-seo-links")
+    nav = soup.find("nav", id="menu-seo-links")
     if not nav:
-        print("No se encontró el aside en la página.")
+        print("❌ No se encontró el `nav` en la página.")
         return categorias
-    
-    # Buscar todos los elementos li dentro del aside
+
+    # Buscar todos los elementos li dentro del nav
     lis = nav.find_all("li")
-    
-    print(f"Cantidad de elementos 'li' encontrados: {len(lis)}")
+
+    print(f"🔍 Cantidad de elementos 'li' encontrados: {len(lis)}")
 
     for li in lis:
         a_tag = li.find("a")
-        if a_tag:
+        if a_tag and "href" in a_tag.attrs:
             categoria_nombre = a_tag.get_text(strip=True)
             categoria_url = a_tag["href"]
-            categorias.append({"nombre": categoria_nombre, "url": categoria_url})
 
-    
-    
+            # 🔴 FILTRO: Solo incluir si la URL contiene "portatil" o "portatiles"
+            if "portatil" in categoria_url.lower() or "portatiles" in categoria_url.lower():
+                categorias.append({"nombre": categoria_nombre, "url": categoria_url})
+
     return categorias
-
-
-
-
-
 
 
 # Llamar a la función y obtener las categorías de primer nivel
 categorias = extraer_categorias_primer_nivel(url)
 
-    # Limitar a un máximo de 10 categorías seleccionadas aleatoriamente
-if len(categorias) > 5:
-    categorias = random.sample(categorias, 5)
-    
-
-
-
-
-
+# Limitar a un máximo de 15 categorías seleccionadas aleatoriamente
+if len(categorias) > 15:
+    categorias = random.sample(categorias, 15)
 
 # Imprimir las categorías extraídas
 for categoria in categorias:
-    print(f"Nombre: {categoria['nombre']}, URL: {categoria['url']}")
+    print(f"✅ Nombre: {categoria['nombre']}, URL: {categoria['url']}")
 
-# Convertir a DataFrame y mostrar
+# Convertir a DataFrame y guardar CSV
 df = pd.DataFrame(categorias)
 print(df)
 
-archivoCategoria = df.to_csv('../data/categoriasPortatiles.csv')
+df.to_csv('../../data/categoriasPortatiles.csv', index=False)
