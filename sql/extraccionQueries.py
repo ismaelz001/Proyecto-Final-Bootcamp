@@ -1,3 +1,4 @@
+import os
 from conn import conectar
 import pandas as pd
 
@@ -59,12 +60,24 @@ queries = {
     """
 }
 
+# Carpeta de salida
+output_dir = "data"
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)  # Crea la carpeta si no existe
+
 # Ejecutar consultas y exportar los resultados
 for nombre_consulta, query in queries.items():
     try:
         df = pd.read_sql_query(query, conn)
-        df.to_csv(f"../data/{nombre_consulta}.csv", index=False, encoding="utf-8")
-        print(f"✅ Consulta '{nombre_consulta}' exportada con éxito.")
+        file_path = os.path.join(output_dir, f"{nombre_consulta}.csv")
+
+        if os.path.exists(file_path):
+            print(f"♻️ Sobrescribiendo archivo existente: {file_path}")
+        else:
+            print(f"✅ Creando nuevo archivo: {file_path}")
+
+        df.to_csv(file_path, index=False, encoding="utf-8")
+
     except Exception as e:
         print(f"❌ Error en la consulta '{nombre_consulta}': {e}")
 
