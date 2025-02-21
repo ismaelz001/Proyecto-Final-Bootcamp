@@ -1,6 +1,16 @@
-,nombre,url
-0,Kits de refrigeración líquida,https://www.pccomponentes.com/refrigeracion-liquida/kit-refrigeracion-liquida
-1,Plus gold,https://www.pccomponentes.com/fuentes-alimentacion/80-plus-gold
-2,Barebones,https://www.pccomponentes.com/barebones
-3,Discos duros externos,https://www.pccomponentes.com/discos-duros-externos
-4,Ventiladores suplementarios,https://www.pccomponentes.com/ventiladores-suplementarios
+nombre,url
+ASUS,"https://www.pccomponentes.com/asus?categories=cajas-pc,discos-duros,fuentes-alimentacion,placas-base,refrigeracion-liquida,tarjetas-graficas"
+Procesadores,https://www.pccomponentes.com/procesadores
+Intel,https://www.pccomponentes.com/procesadores/intel
+Plus gold,https://www.pccomponentes.com/fuentes-alimentacion/80-plus-gold
+Tarjetas de sonido,https://www.pccomponentes.com/tarjetas-sonido
+Fuentes de alimentación,https://www.pccomponentes.com/fuentes-alimentacion
+Discos duros internos,https://www.pccomponentes.com/discos-duros/hdd-mecanico/internos
+Capturadoras,https://www.pccomponentes.com/capturadoras
+Discos duros,https://www.pccomponentes.com/discos-duros
+Configurador de PCs,https://www.pccomponentes.com/configurador/
+Arduino,https://www.pccomponentes.com/arduino-componentes
+RAM,https://www.pccomponentes.com/memorias-ram
+Plus bronze,https://www.pccomponentes.com/fuentes-alimentacion/80-plus-bronze
+Grabadoras,https://www.pccomponentes.com/grabadoras-dvd-blu-ray
+Plus titanium,https://www.pccomponentes.com/fuentes-alimentacion/80plus-titanium
