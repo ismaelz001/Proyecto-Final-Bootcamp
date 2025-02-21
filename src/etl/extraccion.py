@@ -104,9 +104,7 @@ def extraer_categorias_desde_csv(archivo_csv):
 def extraer_productos_para_categorias(archivo_categoria, archivo_productos):
     categorias = extraer_categorias_desde_csv(archivo_categoria)
     
-     # Limitar a un máximo de 10 categorías seleccionadas aleatoriamente
-    if len(categorias) > 10:
-        categorias = random.sample(categorias, 10)
+    
     
     
     todos_productos = []
