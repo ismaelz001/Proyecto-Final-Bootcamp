@@ -2,13 +2,40 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import nbformat
-
+import streamlit as st
+import os 
 
 def load_data(select_box_comp_port):
+    file_path = None
     if select_box_comp_port == "Componentes":
-        return pd.read_csv("../data/productos_componentes_pc_limpio.csv")
-    elif select_box_comp_port == "Portatiles":
-        return pd.read_csv("../data/productosPortatil-limpio.csv")
+        file_path =("../data/productos_componentes_pc_limpio.csv")
+    elif select_box_comp_port == "Portátiles":
+        file_path= ("../data/productosPortatil-limpio.csv")
+    else:
+        st.error("⚠️ Error: Selección no válida en el menú de productos.")
+        
+    
+     # Verificar si el archivo existe
+    if not os.path.exists(file_path):
+        st.error(f"⚠️ ERROR: No se encontró el archivo `{file_path}`")
+        return None
+
+    try:
+        df = pd.read_csv(file_path)
+        st.write("✅ Datos cargados correctamente:", df.head())  # 🔍 Mostrar datos en Streamlit para depuración
+          # ✅ Calcular descuento_% al cargar los datos
+        if "precio_tachado" in df.columns and "precio" in df.columns:
+            df["descuento_%"] = (((df["precio"] - df["precio_tachado"]) / df["precio"]) * 100) * -1
+            df["descuento_%"] = df["descuento_%"].round(2)
+            df["descuento_%"] = df["descuento_%"].fillna(0)
+        
+        
+        
+        
+        return df
+    except Exception as e:
+        st.error(f"⚠️ ERROR al cargar los datos: {e}")
+        return None
     
 def grafico_hist(select_box_comp_port):
 
@@ -90,9 +117,7 @@ def fig_scatter(select_box_comp_port):
 
 def fig_hist_desc(select_box_comp_port):
     df = load_data(select_box_comp_port)
-    df['descuento_%'] = (((df['precio'] - df['precio_tachado']) / df['precio']) * 100)*-1
-    df['descuento_%'] = df['descuento_%'].round(2)
-    df['descuento_%'] = df['descuento_%'].fillna(0)
+  
   
 
 
