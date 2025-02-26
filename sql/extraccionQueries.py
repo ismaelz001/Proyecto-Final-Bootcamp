@@ -2,70 +2,68 @@ import os
 from conn import conectar
 import pandas as pd
 
-# Conexión a la base de datos
+# 🔹 Conexión a la base de datos
 conn = conectar()
 
-# Diccionario con consultas SQL avanzadas
+# 🔹 Diccionario con consultas SQL avanzadas (solo portátiles)
 queries = {
-    "categorias_pc": "SELECT * FROM categoriasPC",
+    # 📌 Tablas principales de portátiles
     "categorias_portatil": "SELECT * FROM categoriasPortatil",
-    "productos_componentes": "SELECT * FROM productosComponentes",
     "productos_portatil": "SELECT * FROM productosPortatil",
-    "caracteristicas_componentes": "SELECT * FROM caracteristicasComponentes",
-    "caracteristicas_portatil": "SELECT * FROM caracteristicasPortatil",
-
-    "top_10_productos_mas_caros": """
+    
+    # 📌 Consultas avanzadas sobre portátiles
+    "top_10_portatiles_mas_caros": """
         SELECT nombre, precio, categoria_id 
-        FROM productosComponentes 
+        FROM productosPortatil 
         ORDER BY precio DESC 
         LIMIT 10;
     """,
 
-    "total_productos_por_categoria": """
+    "total_portatiles_por_categoria": """
         SELECT c.nombre AS categoria, COUNT(p.id) AS total_productos
-        FROM categoriasPC c
-        LEFT JOIN productosComponentes p ON c.id = p.categoria_id
+        FROM categoriasPortatil c
+        LEFT JOIN productosPortatil p ON c.id = p.categoria_id
         GROUP BY c.nombre
         ORDER BY total_productos DESC;
     """,
 
-    "precio_promedio_por_categoria": """
+    "precio_promedio_por_categoria_portatil": """
         SELECT c.nombre AS categoria, ROUND(AVG(p.precio), 2) AS precio_promedio
-        FROM categoriasPC c
-        JOIN productosComponentes p ON c.id = p.categoria_id
+        FROM categoriasPortatil c
+        JOIN productosPortatil p ON c.id = p.categoria_id
         GROUP BY c.nombre
         ORDER BY precio_promedio DESC;
     """,
 
-    "producto_mejor_rating_por_categoria": """
+    "portatil_mejor_rating_por_categoria": """
         SELECT c.nombre AS categoria, p.nombre, p.rating
-        FROM productosComponentes p
-        JOIN categoriasPC c ON p.categoria_id = c.id
+        FROM productosPortatil p
+        JOIN categoriasPortatil c ON p.categoria_id = c.id
         WHERE p.rating = (SELECT MAX(p2.rating) 
-                          FROM productosComponentes p2 
+                          FROM productosPortatil p2 
                           WHERE p2.categoria_id = p.categoria_id)
         ORDER BY c.nombre;
     """,
 
-    "mayor_descuento_producto": """
+    "mayor_descuento_portatil": """
         SELECT nombre, precio, precio_tachado, 
                ROUND(CASE 
                         WHEN precio_tachado > 0 THEN ((precio_tachado - precio) / precio_tachado) * 100
                         ELSE 0 
                     END, 2) AS descuento
-        FROM productosComponentes
+        FROM productosPortatil
         WHERE precio_tachado IS NOT NULL AND precio_tachado > 0
         ORDER BY descuento DESC
         LIMIT 10;
     """
 }
 
-# Carpeta de salida
+# 📂 Carpeta de salida
 output_dir = "data"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)  # Crea la carpeta si no existe
 
-# Ejecutar consultas y exportar los resultados
+# 🔄 Ejecutar consultas y exportar los resultados
 for nombre_consulta, query in queries.items():
     try:
         df = pd.read_sql_query(query, conn)
@@ -81,5 +79,5 @@ for nombre_consulta, query in queries.items():
     except Exception as e:
         print(f"❌ Error en la consulta '{nombre_consulta}': {e}")
 
-# Cerrar conexión
+# 🔒 Cerrar conexión
 conn.close()
