@@ -10,56 +10,116 @@ def cargarDatos():
     cursor = con.cursor(buffered=True)
     cursor.execute("USE PcComponentes")
 
-    # 🔹 Cargar Categorías de Portátiles (SIN MODIFICAR DATOS)
-    def cargarCategorias(ruta, tabla):
-        df = pd.read_csv(ruta, usecols=["nombre", "url"]).fillna("")
-        print(f"📌 Cargando categorías desde {ruta}...")
+    # 🔹 Cargar Categorías
+    cargar_categorias(cursor)
 
-        for _, row in df.iterrows():
-            try:
-                cursor.execute(
-                    f"INSERT IGNORE INTO {tabla} (nombre, url) VALUES (%s, %s)",
-                    (row["nombre"], row["url"])
-                )
-            except Exception as e:
-                print(f"❌ Error al insertar en {tabla}: {row['nombre']}, Error: {e}")
+    # 🔹 Cargar Productos
+    cargar_productos(cursor)
 
-    print("🔹 Cargando categorías de portátiles...")
-    cargarCategorias("../data/categoriasPortatiles.csv", "categoriasportatil")
-
-    # 🔎 Obtener `categoria_id`
-    def obtenerCategoriaId(nombre_categoria, tabla):
-        cursor.execute(f"SELECT id FROM {tabla} WHERE LOWER(nombre) = %s", (nombre_categoria.strip().lower(),))
-        result = cursor.fetchone()
-        cursor.fetchall()
-        return result[0] if result else None
-
-    # 📂 Cargar Productos Portátiles (SIN MODIFICAR DATOS)
-    print("🔹 Cargando productos de portátiles...")
-    df_productosPortatil = pd.read_csv("../data/productosPortatil-limpio.csv").fillna("")
-
-    for _, row in df_productosPortatil.iterrows():
-        categoria_id = obtenerCategoriaId(row["categoria"], "categoriasportatil")
-        if categoria_id:
-            try:
-                cursor.execute("""
-                    INSERT IGNORE INTO productosportatil (fecha, nombre, url, precio, precio_tachado, rating, opiniones, categoria_id)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-                """, (
-                    row["timestamp"], row["nombre"], row["url"], 
-                    row["precio"], 
-                    row["precio_tachado"], 
-                    row["rating"], 
-                    row["opiniones"], 
-                    categoria_id
-                ))
-            except Exception as e:
-                print(f"❌ Error al insertar en productosportatil: {row['nombre']}, Error: {e}")
+    # 🔹 Cargar Características
+    cargar_caracteristicas(cursor)
 
     con.commit()
-    print("✅ Todos los datos de portátiles han sido cargados exitosamente.")
     cursor.close()
     con.close()
+    print("✅ Conexión cerrada.")
 
-# Ejecutar la función
-cargarDatos()
+# 🔹 Cargar Categorías
+def cargar_categorias(cursor):
+    df = pd.read_csv("../data/categoriasPortatiles.csv")
+
+    for _, row in df.iterrows():
+        sql = """
+        INSERT INTO categoriasportatil (id, nombre, url) 
+        VALUES (%s, %s, %s) 
+        ON DUPLICATE KEY UPDATE nombre = VALUES(nombre), url = VALUES(url);
+        """
+        cursor.execute(sql, (row["id"], row["nombre"], row["url"]))
+
+    print("✅ Categorías cargadas correctamente.")
+
+# 🔹 Cargar Productos
+def cargar_productos(cursor):
+    df = pd.read_csv("../data/productos_portatiles_actualizado.csv")
+
+    for _, row in df.iterrows():
+        sql = """
+        INSERT INTO productosportatil (id, fecha, nombre, url, precio, precio_tachado, rating, opiniones, categoria_id) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) 
+        ON DUPLICATE KEY UPDATE 
+        nombre = VALUES(nombre), 
+        url = VALUES(url),
+        precio = VALUES(precio),
+        precio_tachado = VALUES(precio_tachado),
+        rating = VALUES(rating),
+        opiniones = VALUES(opiniones),
+        categoria_id = VALUES(categoria_id);
+        """
+        cursor.execute(sql, (
+            row["producto_id"],
+            row["timestamp"],
+            row["nombre"],
+            row["url"],
+            float(row["precio"].replace("€", "").replace(",", ".")) if pd.notna(row["precio"]) else None,
+            float(row["precio_tachado"].replace(".", "").replace("€", "").replace(",", ".")) if pd.notna(row["precio_tachado"]) and row["precio_tachado"] != "0" else None,
+
+            float(row["rating"].split("/")[0].replace(",", ".")) if pd.notna(row["rating"]) else None,  # ✅ Convierte "4,7/5" → 4.7
+            int(row["opiniones"].split()[0].replace(".", "")) if pd.notna(row["opiniones"]) else None,
+
+            int(row["categoria_id"]) if pd.notna(row["categoria_id"]) else None
+        ))
+
+    print("✅ Productos cargados correctamente.")
+
+def limpiar_numero(valor):
+    """
+    Limpia valores numéricos eliminando caracteres no numéricos y convirtiendo a int o float.
+    """
+    if pd.notna(valor):
+        valor = str(valor).strip().replace(",", ".")  # Convertir comas a puntos y eliminar espacios
+        valor = ''.join(filter(str.isdigit, valor))  # Dejar solo los dígitos
+
+        return int(valor) if valor.isdigit() else None  # Convertir a int si es posible
+    return None
+
+def cargar_caracteristicas(cursor):
+    df = pd.read_csv("../data/caracteristicas_portatiles_actualizado.csv")
+
+    for _, row in df.iterrows():
+        sql = """
+        INSERT INTO caracteristicasportatiles (producto_id, processor_speed, processor_cores, ram_gbs, storage_gbs, display_inches, gpu_model, usb_ports, operating_system, weight, battery_mah) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ON DUPLICATE KEY UPDATE 
+        processor_speed = VALUES(processor_speed),
+        processor_cores = VALUES(processor_cores),
+        ram_gbs = VALUES(ram_gbs),
+        storage_gbs = VALUES(storage_gbs),
+        display_inches = VALUES(display_inches),
+        gpu_model = VALUES(gpu_model),
+        usb_ports = VALUES(usb_ports),
+        operating_system = VALUES(operating_system),
+        weight = VALUES(weight),
+        battery_mah = VALUES(battery_mah);
+        """
+        cursor.execute(sql, (
+            row["producto_id"],
+            row["Processor Speed"] if pd.notna(row["Processor Speed"]) else None,
+            limpiar_numero(row["Processor Cores"]),
+            limpiar_numero(row["RAM Gbs"]),
+            limpiar_numero(row["Storage Gbs"]),
+            limpiar_numero(row["Display Inches"]),
+            row["GPU Model"] if pd.notna(row["GPU Model"]) else None,
+            limpiar_numero(row["USB Ports"]),
+            row["Operating System"] if pd.notna(row["Operating System"]) else None,
+            limpiar_numero(row["Weight"]),
+            limpiar_numero(row["Battery mAh"])
+        ))
+
+    print("✅ Características cargadas correctamente.")
+
+
+# 🔹 Ejecutar el script si es el archivo principal
+if __name__ == "__main__":
+    print("📌 Iniciando carga de datos a MySQL...")
+    cargarDatos()
+    print("🎉 Carga de datos completada.")
