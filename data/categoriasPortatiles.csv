@@ -1,10 +1,11 @@
-nombre,url
-Portátiles para estudiar o trabajar,https://www.pccomponentes.com/portatiles/para-estudiar-o-trabajar
-Portátiles con Windows,https://www.pccomponentes.com/portatiles/windows
-Reacondicionados,https://www.pccomponentes.com/portatiles/reacondicionado
-Portátiles 2 en 1 convertibles,https://www.pccomponentes.com/portatiles/2-en-1-convertibles
-Portátiles para edición de vídeo y diseño,https://www.pccomponentes.com/portatiles/edicion-de-video-y-diseno
-Portátiles con inteligencia artificial,https://www.pccomponentes.com/portatiles/orientados-a-ia
-Portátiles Chromebook,https://www.pccomponentes.com/portatiles/chrome
-PcCom,https://www.pccomponentes.com/portatiles/pccom-pccom
-Alurin,https://www.pccomponentes.com/portatiles/alurin
+id,nombre,url
+1,Portátiles gaming,https://www.pccomponentes.com/portatiles/amd-ryzen-5/amd-ryzen-7/geforce-rtx-3050/geforce-rtx-3060/geforce-rtx-4050/geforce-rtx-4060/geforce-rtx-4070/gtx-1650-series/intel-i5/intel-i7/nuevo/pc-para-gaming/rtx-5070-ti/teclados-es
+2,Portátiles gaming avanzado,https://www.pccomponentes.com/portatiles/amd-ryzen-9/geforce-rtx-4060/geforce-rtx-4070/geforce-rtx-4080/geforce-rtx-4090/intel-core-ultra-7/intel-core-ultra-9/intel-i9/nuevo/pc-para-gaming/rtx-5070-ti/rtx-5080/rtx-5090/teclados-es
+3,Portátiles para estudiar o trabajar,https://www.pccomponentes.com/portatiles/15-6-pulgadas/16gb-ram/8-gb-ram/amd-ryzen-5/intel-i5/para-estudiar-o-trabajar/teclados-es?price_from=0&price_to=700
+4,Portátiles de uso básico y navegación,https://www.pccomponentes.com/portatiles/8-gb-ram/amd-athlon/amd-ryzen-3/chrome/intel-celeron/intel-i3/teclados-es/windows
+5,Portátiles ultraligeros,https://www.pccomponentes.com/portatiles/13-3-pulgadas/14-pulgadas/intel-core-ultra-5/intel-core-ultra-7/intel-i5/intel-i7/nuevo/ultrabook
+6,Portátiles para edición y diseño gráfico,https://www.pccomponentes.com/portatiles/16gb-ram/2-en-1-convertibles/24-gb-ram/32-gb-ram/amd-ryzen-9/apple-gpu-deca-core/apple-gpu-octa-core/apple-m3/edicion-de-video-y-diseno/geforce-rtx-3060/geforce-rtx-4050/geforce-rtx-4060/geforce-rtx-4070/intel
+7,Portátiles reacondicionados gaming,https://www.pccomponentes.com/portatiles/pc-para-gaming/reacondicionado
+8,Portátiles reacondicionados ofimática,https://www.pccomponentes.com/portatiles/2-en-1-convertibles/edicion-de-video-y-diseno/para-estudiar-o-trabajar/reacondicionado/ultrabook/workstation
+9,PcCom,https://www.pccomponentes.com/portatiles/pccom-pccom
+10,Alurin,https://www.pccomponentes.com/portatiles/alurin

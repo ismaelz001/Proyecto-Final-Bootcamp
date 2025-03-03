@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 # 🔹 Ruta del archivo CSV de portátiles
-archivo_portatiles = "../../data/productosPortatil.csv"
+archivo_portatiles = "../../data/productos_portatiles.csv"
 
 # 🔍 Verificar que el archivo existe antes de procesarlo
 if not os.path.exists(archivo_portatiles):
