@@ -19,14 +19,7 @@ def crearTabla():
                    """)
     print("✅ Usando base de datos 'PcComponentes'.")
     
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS categoriasPC (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            nombre VARCHAR(255) UNIQUE,
-            url TEXT
-        )
-    """)
-    print("✅ Tabla 'categoriasPC' creada o ya existente.")
+ 
     
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS categoriasPortatil (
@@ -37,21 +30,7 @@ def crearTabla():
     """)
     print("✅ Tabla 'categoriasPortatil' creada o ya existente.")
     
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS productosComponentes (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            fecha DATETIME UNIQUE, 
-            nombre VARCHAR(255) NOT NULL,
-            url VARCHAR(255) NOT NULL,
-            precio DECIMAL(10, 2) NOT NULL,
-            precio_tachado DECIMAL(10, 2),
-            rating DECIMAL(3, 2),
-            opiniones INT,
-            categoria_id INT,
-            FOREIGN KEY (categoria_id) REFERENCES categoriasPC(id)
-        )
-    """)
-    print("✅ Tabla 'productosComponentes' creada o ya existente.")
+    
     
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS productosPortatil (
@@ -70,52 +49,26 @@ def crearTabla():
     print("✅ Tabla 'productosPortatil' creada o ya existente.")
     
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS caracteristicasPortatiles (
-            producto_id INT,
-            FOREIGN KEY (producto_id) REFERENCES productosPortatil(id),
-            caracteristica_1 VARCHAR(255) NOT NULL,
-            caracteristica_2 VARCHAR(255) NOT NULL,
-            caracteristica_3 VARCHAR(255) NOT NULL,
-            caracteristica_4 VARCHAR(255) NOT NULL,
-            caracteristica_5 VARCHAR(255) NOT NULL,
-            caracteristica_6 VARCHAR(255) NOT NULL,
-            caracteristica_7 VARCHAR(255) NOT NULL,
-            caracteristica_8 VARCHAR(255) NOT NULL,
-            caracteristica_9 VARCHAR(255) NOT NULL,
-            caracteristica_10 VARCHAR(255) NOT NULL,
-            caracteristica_11 VARCHAR(255) NOT NULL,
-            caracteristica_12 VARCHAR(255) NOT NULL,
-            caracteristica_13 VARCHAR(255) NOT NULL,
-            caracteristica_14 VARCHAR(255) NOT NULL,
-            caracteristica_15 VARCHAR(255) NOT NULL,
-            caracteristica_16 VARCHAR(255) NOT NULL
-        )
-    """)
-    print("✅ Tabla 'caracteristicasPortatiles' creada o ya existente.")
+    CREATE TABLE IF NOT EXISTS caracteristicasPortatiles (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        producto_id INT NOT NULL,
+        processor_speed VARCHAR(50),
+        processor_cores INT(11),
+        ram_gbs INT(11),
+        storage_gbs INT(11),
+        display_inches DECIMAL(4,1),
+        gpu_model VARCHAR(100),
+        usb_ports INT(11),
+        operating_system VARCHAR(100),
+        weight DECIMAL(6,2),
+        battery_mah INT(11),
+        FOREIGN KEY (producto_id) REFERENCES productosPortatil(id)
+    )
+""")
+print("✅ Tabla 'caracteristicasPortatiles' creada o ya existente.")
+
     
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS caracteristicasComponentes (
-            producto_id INT,
-            FOREIGN KEY (producto_id) REFERENCES productosComponentes(id),
-            caracteristica_1 VARCHAR(255) NOT NULL,
-            caracteristica_2 VARCHAR(255) NOT NULL,
-            caracteristica_3 VARCHAR(255) NOT NULL,
-            caracteristica_4 VARCHAR(255) NOT NULL,
-            caracteristica_5 VARCHAR(255) NOT NULL,
-            caracteristica_6 VARCHAR(255) NOT NULL,
-            caracteristica_7 VARCHAR(255) NOT NULL,
-            caracteristica_8 VARCHAR(255) NOT NULL,
-            caracteristica_9 VARCHAR(255) NOT NULL,
-            caracteristica_10 VARCHAR(255) NOT NULL,
-            caracteristica_11 VARCHAR(255) NOT NULL,
-            caracteristica_12 VARCHAR(255) NOT NULL,
-            caracteristica_13 VARCHAR(255) NOT NULL,
-            caracteristica_14 VARCHAR(255) NOT NULL,
-            caracteristica_15 VARCHAR(255) NOT NULL,
-            caracteristica_16 VARCHAR(255) NOT NULL
-        )
-    """)
-    print("✅ Tabla 'caracteristicasComponentes' creada o ya existente.")
+   
 
 # Ejecutar la función para crear las tablas
 crearTabla()
