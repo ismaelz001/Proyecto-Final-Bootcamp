@@ -56,7 +56,7 @@ def crearTabla():
         processor_cores INT(11),
         ram_gbs INT(11),
         storage_gbs INT(11),
-        display_inches DECIMAL(4,1),
+        display_inches DECIMAL(5,2),
         gpu_model VARCHAR(100),
         usb_ports INT(11),
         operating_system VARCHAR(100),
