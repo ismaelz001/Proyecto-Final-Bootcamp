@@ -42,7 +42,9 @@ def crearTabla():
             precio_tachado DECIMAL(10, 2),
             rating DECIMAL(3, 2),
             opiniones INT,
-            categoria_id INT,
+            categoria_id INT,         
+            descuento_porcentaje DECIMAL(5, 2),
+            marca VARCHAR(255),                 
             FOREIGN KEY (categoria_id) REFERENCES categoriasPortatil(id)
         )
     """)
@@ -56,7 +58,7 @@ def crearTabla():
         processor_cores INT(11),
         ram_gbs INT(11),
         storage_gbs INT(11),
-        display_inches DECIMAL(5,2),
+        display_inches DECIMAL(10,5),
         gpu_model VARCHAR(100),
         usb_ports INT(11),
         operating_system VARCHAR(100),

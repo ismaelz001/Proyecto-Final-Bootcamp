@@ -44,8 +44,8 @@ def cargar_productos(cursor):
 
     for _, row in df.iterrows():
         sql = """
-        INSERT INTO productosportatil (id, fecha, nombre, url, precio, precio_tachado, rating, opiniones, categoria_id) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) 
+        INSERT INTO productosportatil (id, fecha, nombre, url, precio, precio_tachado, rating, opiniones, categoria_id, descuento_porcentaje, marca) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) 
         ON DUPLICATE KEY UPDATE 
         nombre = VALUES(nombre), 
         url = VALUES(url),
@@ -54,20 +54,30 @@ def cargar_productos(cursor):
         rating = VALUES(rating),
         opiniones = VALUES(opiniones),
         categoria_id = VALUES(categoria_id);
+        descuento_porcentaje = VALUES(descuento_porcentaje);
+        marca = VALUES(marca);
         """
         cursor.execute(sql, (
             row["producto_id"],
             row["timestamp"],
             row["nombre"],
             row["url"],
-            float(row["precio"].replace("€", "").replace(",", ".")) if pd.notna(row["precio"]) else None,
-            float(row["precio_tachado"].replace(".", "").replace("€", "").replace(",", ".")) if pd.notna(row["precio_tachado"]) and row["precio_tachado"] != "0" else None,
-
-            float(row["rating"].split("/")[0].replace(",", ".")) if pd.notna(row["rating"]) else None,  # ✅ Convierte "4,7/5" → 4.7
-            int(row["opiniones"].split()[0].replace(".", "")) if pd.notna(row["opiniones"]) else None,
-
-            int(row["categoria_id"]) if pd.notna(row["categoria_id"]) else None
+            row["precio"],
+            row["precio_tachado"],
+            row["rating"],
+            row["opiniones"],
+            int(row["categoria_id"]) if pd.notna(row["categoria_id"]) else None,
+            row["descuento_porcentaje"],
+            row["marca"]
         ))
+            #float(row["precio"].replace("€", "").replace(",", ".")) if pd.notna(row["precio"]) else None,
+            #float(row["precio_tachado"].replace(".", "").replace("€", "").replace(",", ".")) if pd.notna(row["precio_tachado"]) and row["precio_tachado"] != "0" else None,
+
+            #float(row["rating"].split("/")[0].replace(",", ".")) if pd.notna(row["rating"]) else None,  # ✅ Convierte "4,7/5" → 4.7
+            #int(row["opiniones"].split()[0].replace(".", "")) if pd.notna(row["opiniones"]) else None,
+
+            
+        
 
     print("✅ Productos cargados correctamente.")
 
@@ -80,6 +90,18 @@ def limpiar_numero(valor):
         valor = ''.join(filter(str.isdigit, valor))  # Dejar solo los dígitos
 
         return int(valor) if valor.isdigit() else None  # Convertir a int si es posible
+    return None
+
+
+def limpiar_float(valor):
+    """
+    Limpia valores numéricos eliminando caracteres no numéricos y convirtiendo a int o float.
+    """
+    if pd.notna(valor):
+        valor = str(valor).strip().replace(",", ".")  # Convertir comas a puntos y eliminar espacios
+        valor = ''.join(filter(str.isdigit, valor))  # Dejar solo los dígitos
+
+        return float(valor) if valor.isdigit() else None  # Convertir a int si es posible
     return None
 
 def cargar_caracteristicas(cursor):
@@ -104,15 +126,15 @@ def cargar_caracteristicas(cursor):
         cursor.execute(sql, (
             row["producto_id"],
             row["Processor Speed"] if pd.notna(row["Processor Speed"]) else None,
-            limpiar_numero(row["Processor Cores"]),
-            limpiar_numero(row["RAM Gbs"]),
-            limpiar_numero(row["Storage Gbs"]),
-            limpiar_numero(row["Display Inches"]),
+            row["Processor Cores"],
+            row["RAM Gbs"],
+            row["Storage Gbs"],
+            row["Display Inches"],
             row["GPU Model"] if pd.notna(row["GPU Model"]) else None,
-            limpiar_numero(row["USB Ports"]),
+            row["USB Ports"],
             row["Operating System"] if pd.notna(row["Operating System"]) else None,
-            limpiar_numero(row["Weight"]),
-            limpiar_numero(row["Battery mAh"])
+            row["Weight"],
+            row["Battery mAh"]
         ))
 
     print("✅ Características cargadas correctamente.")
