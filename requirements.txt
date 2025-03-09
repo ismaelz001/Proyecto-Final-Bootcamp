@@ -11,3 +11,4 @@ prettify
 webdriver_manager
 mysql-connector-python
 streamlit
+streamlit_lottie

@@ -20,7 +20,7 @@ lottie_file ="https://assets9.lottiefiles.com/packages/lf20_ggwq3ysg.json"
 # 📌 Aplicar estilos globales
 # 📌 Cargar estilos desde styles.css
 def load_css():
-    with open("src\style.css") as f:
+    with open("../src/style.css") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 load_css()  # Llamamos a la función para aplicar los estilos
@@ -56,10 +56,10 @@ with st.container():
 col1, col2, col3 = st.columns([1, 2, 1])  # 📌 Centrar imágenes
 
 with col1:
-    st.image("imgs/pc.webp", width=250)
+    st.image("../imgs/pc.webp", width=250)
 
 with col3:
-    st.image("imgs/porta.webp", width=250)
+    st.image("../imgs/porta.webp", width=250)
 
 
 # Secciones
