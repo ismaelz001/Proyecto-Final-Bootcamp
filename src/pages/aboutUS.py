@@ -34,10 +34,10 @@ def show():
             "github": "https://github.com/mariagomez"
         },
         {
-            "nombre": "Carlos Rodríguez",
+            "nombre": "Mateo Morales Gomez",
             "imagen": "imagenes_foto/avatar.webp",
-            "linkedin": "https://www.linkedin.com/in/carlosrodriguez",
-            "github": "https://github.com/carlosrodriguez"
+            "linkedin": "www.linkedin.com/in/mateo-morales-51a207355",
+            "github": "https://github.com/mateomg-dotcom"
         },
         {
             "nombre": "Ismael Rodríguez",
