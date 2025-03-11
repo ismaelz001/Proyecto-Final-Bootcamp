@@ -22,44 +22,51 @@ def show():
     # 📌 Información de los integrantes del equipo
     integrantes = [
         {
-            "nombre": "Juan Pérez",
-            "imagen": "imagenes_foto/avatar.webp",
-            "linkedin": "https://www.linkedin.com/in/juanperez",
-            "github": "https://github.com/juanperez"
+            "nombre": "Luis Vazquez",
+            "imagen": "../src/pages/imagenes_foto/Imagen1.jpg",
+            "linkedin": "https://www.linkedin.com/in/luis-vasquez-d/",
+            "github": "https://github.com/luis4039"
         },
         {
-            "nombre": "María Gómez",
-            "imagen": "imagenes_foto/avatar.webp",
-            "linkedin": "https://www.linkedin.com/in/mariagomez",
+            "nombre": "Naomi Burgués",
+            "imagen": "../src/pages/imagenes_foto/fotoperfil.jpeg",
+            "linkedin": "https://www.linkedin.com/in/naomi-burgues/",
             "github": "https://github.com/mariagomez"
         },
         {
             "nombre": "Mateo Morales Gomez",
-            "imagen": "imagenes_foto/avatar.webp",
+            "imagen": "../src/pages/imagenes_foto/perfilM.jpg",
             "linkedin": "www.linkedin.com/in/mateo-morales-51a207355",
             "github": "https://github.com/mateomg-dotcom"
         },
         {
             "nombre": "Ismael Rodríguez",
-            "imagen": "imagenes_foto/avatar.webp",
+            "imagen": "../src/pages/imagenes_foto/fotoPro.jpeg",
             "linkedin": "https://www.linkedin.com/in/ismael-rodriguez-b6155165/",
             "github": "https://github.com/ismaelz001"
         }
     ]
 
-    # 📌 Imagen por defecto si la imagen no existe o está vacía
-    imagen_default = "../src/pages/imagenes_foto/avatar.webp"
+    # 📌 Ruta Absoluta para evitar problemas de búsqueda
+    imagen_default = os.path.abspath("imagenes_foto/avatar.webp")
 
     # 📌 Mostrar la información de cada integrante en columnas
     for integrante in integrantes:
         col1, col2 = st.columns([1, 3])
 
         with col1:
-            # 📌 Verificar si la clave "imagen" existe y no está vacía
-            if "imagen" in integrante and os.path.exists(integrante["imagen"]):
-                imagen = Image.open(integrante["imagen"])
-            else:
-                imagen = Image.open(imagen_default)  # Usar imagen por defecto si no se encuentra
+            imagen_path = integrante["imagen"]
+
+            # 📌 Intentar cargar la imagen, si no existe usar la imagen por defecto
+            try:
+                if os.path.exists(imagen_path):
+                    imagen = Image.open(imagen_path)
+                else:
+                    st.warning(f"⚠ La imagen '{imagen_path}' no existe. Usando imagen por defecto.")
+                    imagen = Image.open(imagen_default)
+            except FileNotFoundError:
+                st.error(f"❌ No se pudo abrir la imagen '{imagen_path}'. Verifica la ruta.")
+                imagen = Image.open(imagen_default)
 
             st.image(imagen, width=150)  # Ajustar tamaño de la imagen
 
