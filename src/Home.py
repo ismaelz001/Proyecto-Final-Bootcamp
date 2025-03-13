@@ -61,9 +61,9 @@ def show():
     # 📌 Mostrar imágenes (Se mantienen las rutas originales)
     col1, col2, col3 = st.columns([1, 1, 1])  # Reducimos separación de las imágenes
     with col1:
-        st.image("../imgs/pc.webp", width=250)
+        st.image("../imgs/p1.jpg", width=250)
     with col3:
-        st.image("../imgs/porta.webp", width=250)
+        st.image("../imgs/p2.jpg", width=250)
 
     # 📌 Secciones
     with st.container():

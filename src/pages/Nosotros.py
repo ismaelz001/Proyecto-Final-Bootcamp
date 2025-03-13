@@ -4,13 +4,13 @@ import os
 
 # 📌 Función principal para mostrar la página
 def show():
-    """Muestra la página 'About Us' con información del equipo."""
+    """Muestra la página 'Nosotros' con información del equipo."""
 
     # 📌 Cargar estilos desde styles.css
     load_css()
 
     # 📌 Título Principal
-    st.title("👥 About Us - Equipo del Proyecto")
+    st.title("👥 Nosotros - Equipo del Proyecto")
 
     st.write("""
     Somos un equipo apasionado por la tecnología y el análisis de datos.  
@@ -36,7 +36,7 @@ def show():
         {
             "nombre": "Mateo Morales Gomez",
             "imagen": "../src/pages/imagenes_foto/perfilM.jpg",
-            "linkedin": "www.linkedin.com/in/mateo-morales-51a207355",
+            "linkedin": "www.linkedin.com/in/mateo-morales-51a207355/",
             "github": "https://github.com/mateomg-dotcom"
         },
         {

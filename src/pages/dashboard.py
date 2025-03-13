@@ -16,7 +16,7 @@ def show():
         st.markdown('<p class="stTitle">📊 Dashboard de Portátiles</p>', unsafe_allow_html=True)
 
     # 📌 Imagen de portátiles en la cabecera
-    top_image_path = "../imgs/porta.webp"
+    top_image_path = "../imgs/p1.jpg"
     with col2:
         st.image(top_image_path, width=120)
 
